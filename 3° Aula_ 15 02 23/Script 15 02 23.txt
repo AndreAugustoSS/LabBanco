@@ -1,0 +1,59 @@
+-- Estrutura das tabelas DEPT e EMP
+DESC dept
+desc scott.emp -- Nome do dono da estrutura DEPT e EMP, necessário para executar o código
+desc scott.dept
+
+--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+
+-- Exibir todos os registros:
+-- a) EMP b) DEPT
+SELECT * FROM scott.dept
+
+--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+
+-- Exibir todos os nomes de empregado e nome de departamento que ele trabalha
+-- a) Omitindo o join (cartesiano):
+SELECT ename, dname FROM scott.emp, scott.dept
+
+--b) EquiJoin (relacionamento entre chaves primária e estrangeira):
+SELECT e.ename, d.dname FROM scott.emp e, scott.dept d WHERE e.deptno = d.deptno;
+
+--c) ANSI-99 (Natural Join):
+SELECT e.ename, d.dname FROM scott.emp e NATURAL JOIN scott.dept d
+
+--d) ANSI-99 (Using: as colunas de chaves primária e estrangeira possuem a mesma grafia)
+SELECT e.ename, d.dname FROM scott.emp e JOIN scott.dept d USING (deptno)
+
+--e) ANSI-99 (ON: as colunas de chave primária e estrangeira possuem grafia diferente)
+SELECT e.ename, d.dname FROM scott.emp e JOIN scott.dept d ON (e.deptno = d.deptno)
+
+--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+
+                        -- Exercícios--
+
+                        
+-- Usando, qualquer junção identica, faça o que se pede:
+-- 1) Alterar para exibir somente quem tem o nome do empregado iniciado com a letra A ou
+-- com a letra C e em ordem alfabética
+SELECT e.ename, d.dname FROM scott.emp e JOIN scott.dept d USING (deptno)
+WHERE  e.ename LIKE 'A%' OR e.ename LIKE 'C%'
+ORDER BY e.ename
+
+
+-- 2) Alterar para exibir somente os deptos com id entre 10 e 30 ordenado de forma descrescente
+-- pelo salário
+
+
+-- Resposta
+SELECT e.ename, d.dname, deptno FROM scott.emp e JOIN scott.dept d USING (deptno) WHERE deptno BETWEEN 10 AND 30 ORDER BY deptno
+
+-- Correção
+SELECT e.ename, d.dname FROM scott.emp e JOIN scott.dept d ON (e.deptno = d.deptno)
+WHERE d.deptno BETWEEN 10 AND 30 
+ORDER BY e.sal DESC
