@@ -1,0 +1,57 @@
+CREATE TABLE departamento
+(cd_departamento INTEGER PRIMARY KEY,
+nm_departamento VARCHAR(50) NOT NULL)
+
+DESC departamento
+
+-- Implicito
+INSERT INTO departamento VALUES (1, 'SECRETARIA')
+
+-- Explicito
+INSERT INTO departamento (nm_departamento, cd_departamento) VALUES ('CONTABILIDADE', 2)
+
+-------------------------------------------------------------------------------------------------------
+
+CREATE TABLE cargo
+(cd_cargo INTEGER PRIMARY KEY,
+nm_cargo VARCHAR(50) NOT NULL)
+
+INSERT INTO cargo VALUES (1, 'ANALISTA')
+
+INSERT INTO cargo (cd_cargo, nm_cargo) VALUES (2, 'PROGRAMADOR')
+
+---------------------------------------------------------------------------------------------------------
+
+-- Criar FUNCIONARIO com relacionamento a tabela DEPARTAMENTO
+CREATE TABLE funcionario
+(cd_funcionario INTEGER PRIMARY KEY,
+nm_funcionario VARCHAR (50) NOT NULL, 
+cd_departamento INTEGER,
+CONSTRAINT funcionario_depto_fk FOREIGN KEY (cd_departamento) REFERENCES departamento (cd_departamento))
+
+INSERT INTO funcionario VALUES (1, 'Alf', 1)
+
+INSERT INTO funcionario VALUES (2, 'Ale', 2)
+
+INSERT INTO funcionario (cd_funcionario, nm_funcionario) VALUES (3, 'ASH')
+
+INSERT INTO funcionario (cd_funcionario, nm_funcionario) VALUES (4, 'PIESTRO')
+
+---------------------------------------------------------------------------------------------------------
+
+CREATE TABLE cargo_funcionario
+(cd_cargo INTEGER,
+cd_funcionario INTEGER,
+dt_inicio DATE,
+dt_fila DATE,
+CONSTRAINT cargo_funcionario_pk PRIMARY KEY (cd_cargo, cd_funcionario, dt_inicio),
+CONSTRAINT cargo_funcionario_fk1 FOREIGN KEY (cd_cargo) REFERENCES cargo (cd_cargo),
+CONSTRAINT cargo_funcionario_fk2 FOREIGN KEY (cd_funcionario) REFERENCES funcionario (cd_funcionario)
+
+INSERT INTO cargo_funcionario VALUES (1,1,SYSDATE,NULL)
+
+INSERT INTO cargo_funcionario (cd_cargo, cd_funcionario, dt_inicio) VALUES (2,2SYSDATE-50)
+
+
+
+
