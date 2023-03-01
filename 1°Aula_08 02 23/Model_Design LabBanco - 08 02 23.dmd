@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="Aula de Lab de Banco 08 02 23" id="0B84EA95-BCC8-A3AD-D3D4-A5BC15B22380" version="3.5">
+<createdBy>Fatec</createdBy>
+<createdTime>2023-02-08 17:59:29 UTC</createdTime>
+<ownerDesignName>Aula de Lab de Banco 08 02 23</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>0B84EA95-BCC8-A3AD-D3D4-A5BC15B22380</designId>
+</OSDM_Design>
