@@ -1,0 +1,93 @@
+-- Visualizar a estrutura das tabelas: DEPARTMENTS, EMPLOYEES e JOB_HISTORY
+
+DESC employees
+DESC EMPLOYEES
+Select * from job_history
+
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+
+-- Exibir o id do empregado e do cargo (atual e anterior) de todos os funcionários (exibir somente 1 ocorrência) e 
+-- colocar apelido e ordenar pela coluna id do empregado
+
+SELECT employee_id "Id", job_id "Cargo" FROM hr.employees
+UNION
+SELECT employee_id, job_id FROM hr.job_history
+ORDER BY 1
+
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+
+-- EXERCÍCIO 1 - Alterar para exibir também o id do departamento atual e anterior
+
+SELECT employee_id "Id", job_id "Cargo", DEPARTMENT_ID "DepartamentoID" FROM hr.employees
+UNION
+SELECT employee_id, job_id, DEPARTMENT_ID FROM hr.job_history
+ORDER BY 1
+  
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+
+-- Exercício 2 - Alterar o operador para UNION ALL na querie anterior.
+
+SELECT employee_id "Id", job_id "Cargo", DEPARTMENT_ID "DepartamentoID" FROM hr.employees
+UNION ALL 
+SELECT employee_id, job_id, DEPARTMENT_ID FROM hr.job_history
+ORDER BY 1
+
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+
+-- Exercício 3 - Exibir o ID do empregado e do cargo dos funcionários que POSSUEM O MESMO cargo quando entraram 
+-- na empresa.
+
+  --INTERSEPT = TRÁS os valores que está em comum entre as duas consultas
+
+SELECT employee_id "Id", job_id "Cargo" FROM hr.employees
+INTERSECT
+SELECT employee_id, job_id FROM hr.job_history
+ORDER BY 1
+
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+
+-- Exercício 4 - Exibir o id do empregado e do cargo dos funcionários que NUNCA MUDARAM de função na empresa
+
+  --MINUS = Ele trá o que tem na priemira tabela menos o que se tem na segunda, então ele basicamente trás o que 
+  -- tem na primeira coluna o que não tem na segunda.
+  --Sempre que for utilizar ele, a primeira tabela tem que ser a que tem mais registros.
+  
+SELECT employee_id "Id", job_id "Cargo" FROM hr.employees
+MINUS
+SELECT employee_id, job_id FROM hr.job_history
+
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+  
+  -- Correspondência = É o nome que se dá quando as colunas são de tipos diferentes.
+  -- Correspondetentes = Noke dado quando não há a mesma quantidade de colunas entre duass consultas OU não tem o 
+  --mesmo tipo de dado
+
+-- Exercício 5 - Criar o enunciado para a querie a sguir:
+
+-- Exibir o department_id, location_id id e a hire_date de todas as contratações de todos os funcionários utilizando 
+-- operadores de conjunto (UNION, UNIONS ALL, MINIUS, INTERSECT)
+  
+SELECT department_id, TO_NUMBER (NULL) "Local", hire_date FROM hr.employees
+UNION
+SELECT department_id, location_id, TO_DATE (null) FROM HR.departments
+
+  
+-- Também é possível usando LITERAL
+SELECT employee_id, job_id, salary FROM HR.employees
+UNION
+SELECT employee_id, job_id, 0 FROM HR.job_history
+
+--Literal - Não é coluna, e qualquer constante, qualquer string que se usa para a equivalencia de colunas
+-- sendo qualquer string alfanumerica para a equivalencia da tabela

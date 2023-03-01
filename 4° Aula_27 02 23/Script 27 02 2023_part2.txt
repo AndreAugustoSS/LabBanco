@@ -1,0 +1,55 @@
+select * from HR.employees
+  
+-- Exibir o nome e o salário de quem ganha mais que o funcionário com sobrenome Abel
+-- a) Quanto Abel ganha ?
+
+select salary from HR.employees
+where LAST_NAME = 'Abel'
+
+  
+-- b) Exibir quem ganha mais que o Abel
+  
+SELECT last_name, salary FROM hr.employees
+WHERE salary > (SELECT salary FROM hr.employees
+                WHERE last_name = 'Abel')
+
+-- Alterar o salario do funcionário com sobrenome Abel com 50% de aumento
+UPDATE HR.employees
+SET salary = salary * 1.50
+WHERE last_name = 'Abel'
+
+-- Executar novamante a consulta acima retornando o salário para 11000
+SET salary = salary * 1.00
+WHERE last_name = 'Abel'
+
+-----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+
+  
+-- Exercício: Exibir o sobrenome e o id do cargo dos empregados que possuem o MESMO CARGO (=)
+-- que o empregado com id 141
+
+  SELECT last_name, employee_id from HR.employees
+  where JOB_ID = (select JOB_ID from HR.employees
+                        WHERE EMPLOYEE_ID = 141)
+
+-----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+
+-- Exercício: Alterar para exibir SOMENTE quem tem o salário maior que o do empregado com id 125 ARRUMAR  
+
+SELECT last_name, JOB_ID, salary from HR.employees
+where job_id = (select JOB_ID
+                from HR.employees where hr.employees = 141)
+and salary > (select salary 
+              from HR.employees WHERE EMPLOYEE_ID = 125)
+
+-- Exibir o sobrenome, o título do cargo e o salario minimo
+SELECT MIN (salary) FROM hr.employees;
+
+-- b) Relacionar a tabela EMPLOYEES com JOBS  atraves da coluna job_id
+SELECT e.last_name, j.job_title, e.salary from hr.employees e, hr.jobs j
+    where e.job_id = j.job_id
+  And e.salary = (SELECT MIN(salary) from hr.employees)
