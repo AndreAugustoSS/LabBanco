@@ -1,0 +1,60 @@
+-- SUBCONSULTAS: Pode estar presentes em: Group By, From, Where, Having 
+-- Pode ser usada em CREATE TABLE, INSERT, UPDATE, DELETE e SELECT (JOIN e FUNCOES)
+-- OPERADOR EXISTS (NÃO FAZ COMPARAÇÃO COM COLUNAS, O RETORNA SOMENTE VERDADEIRO OU FALSO)
+
+SELECT * FROM hr.employees;
+
+--------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------
+
+ --  EXERCÍCIO 1: Exibir o id do cargo e a media salarial somente de quem ganha igual ou menor salário médio da empresa:
+
+ -- A) Exibir a média salarial agrupada por id do cargo, ordenado de forma decrescente pela média.
+
+SELECT job_id, AVG(salary) "Media" FROM HR.employees
+GROUP BY job_id ORDER BY 2 DESC
+
+--------------------------------------------------------------------------------------------------------------------------
+
+ -- B) Igual ao menor salário médio da empresa
+SELECT job_id, AVG(salary) "Media"
+FROM HR.employees
+GROUP BY job_id
+HAVING AVG(salary) = (SELECT MIN(AVG(salary))
+                     FROM HR.employees GROUP BY job_id)
+
+--------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------
+
+ -- EXERCÍCIO 2: Exibir o nome do departamento e a menor salarial do departamento somente quando o menor salário for maior 
+ -- que o menor salário do depratmento 50
+SELECT d.department_name, MIN(e.salary) "Menor"
+FROM hr.employees e, hr.departments d
+WHERE e.department_id = d.department_id
+GROUP BY d.department_name
+HAVING MIN(salary) > (SELECT MIN (salary)
+                      FROM hr.employees
+                      WHERE department_id = 50)
+
+--------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------
+
+ -- EXERCÍCIO 3: Exibir o nome, o salário e o id do departamento dos empregado que ganham saláro mínimo, independente 
+ -- do departamento
+
+ -- A) Qual o menor salário por departamento
+SELECT MIN (salary), department_id
+FROM hr.employees
+GROUP BY department_id
+
+--------------------------------------------------------------------------------------------------------------------------
+
+-- B) Colocar a querie como subquerie
+SELECT first_name, salary, department_id 
+FROM hr.employees
+WHERE salary IN (SELECT MIN(salary)
+                FROM hr.employees GROUP BY department_id)
+ORDER BY salary
